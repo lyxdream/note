@@ -75,6 +75,8 @@ console.log( Object.getPrototypeOf( a ) === Person.prototype );      // 输出�
 
 
 // 4. new操作符
+
+/** 
 function Person( name ){
     this.name = name;
 };
@@ -97,6 +99,7 @@ const a = objectFactory( Person, 'sven' );
 console.log( a.name );    // 输出：sven
 console.log( a.getName() );     // 输出：sven
 console.log( Object.getPrototypeOf( a ) === Person.prototype );      // 输出：true
+*/
 
 // 5.class
 class Animal{
@@ -119,3 +122,49 @@ class Dog extends Animal{
 
 const dog = new Dog('Tim')
 console.log(dog.getName()+"says"+dog.speak())
+
+// 6.模拟bind
+
+// 简化版
+
+/**
+
+Function.prototype.bind = function(context){
+    return ()=>{
+      return this.apply(context,arguments)
+    }
+  }
+  
+  const obj = {
+    name:'sven'
+  }
+  const func = function(){
+    console.log(this.name)
+  }.bind(obj)
+  
+  func()
+ */
+
+//   复杂版
+
+Function.prototype.bind = function(){
+    const self = this,
+    context = [].shift.call( arguments ), //需要绑定的this上下文
+    args = [].slice.call( arguments ); //剩余参数转换成数组
+    return function(){
+        //执行新的函数的时候，会把之前传入的context当作新函数体内的this,并且组合两次分别传入的参数，作为新函数的参数
+        return self.apply( context, [].concat.call( args, [].slice.call( arguments ) ) );
+    }
+  }
+  const obj = {
+  name:'sven'
+  }
+  
+  const func = function( a, b, c, d ){
+    console.log ( this.name );        // 输出：sven
+    console.log ( [ a, b, c, d ] )    // 输出：[ 1, 2, 3, 4 ]
+  }.bind( obj, 1, 2 );
+  
+  func(3,4)
+
+  
