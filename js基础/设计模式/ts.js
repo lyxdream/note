@@ -1,3 +1,17 @@
+let a= 10,            //1.全局上下文环境入栈
+  fn,
+  bar = function(x){
+    const b =5;
+    fn(x+b);           //3.fn函数上下文入栈
+  }
+fn = function(y){
+  const c= 5;
+  consoole.log(y+c)
+}
+bar(10)  //2.bar函数上下文入栈
+
+
+
 // const MyClass = function(){
 //   this.name = 'sven'
 //   this.age = 111
