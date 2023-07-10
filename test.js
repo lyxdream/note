@@ -96,21 +96,75 @@
 
 
 
-let mult = (function(){
-  let cache = {};
-  const calculate = function(){
-    let a = 1;
-    for ( let i = 0, l = arguments.length; i < l; i++ ){
-        a = a * arguments[i];
-    }
-    return a
-  }
-  return function(){
-    const args = Array.prototype.join.call( arguments, ', ' );  //1, 2, 3
-    if ( cache[ args ] ){
-      return cache[ args ];
-    }
-    return cache[ args ] = calculate.apply(null,arguments);
-  }
-})()
-console.log ( mult( 1,2,3 ) );     // 输出：6
+// let mult = (function(){
+//   let cache = {};
+//   const calculate = function(){
+//     let a = 1;
+//     for ( let i = 0, l = arguments.length; i < l; i++ ){
+//         a = a * arguments[i];
+//     }
+//     return a
+//   }
+//   return function(){
+//     const args = Array.prototype.join.call( arguments, ', ' );  //1, 2, 3
+//     if ( cache[ args ] ){
+//       return cache[ args ];
+//     }
+//     return cache[ args ] = calculate.apply(null,arguments);
+//   }
+// })()
+// console.log ( mult( 1,2,3 ) );     // 输出：6
+
+
+// let report = (function(){
+//   let imgs = [];
+//   return function( src ){
+//       let img = new Image();
+//       imgs.push( img );
+//       img.src = src;
+//       console.log(img,imgs,'==imgs')
+//   }
+// })();
+// report('https://bkimg.cdn.bcebos.com/pic/8cb1cb134954092302ddef229b58d109b3de4932?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto')
+
+
+// const extent = {
+//   value:0,
+//   call:function(){
+//     this.value++;
+//     console.log(this.value)
+//   }
+// }
+// extent.call();     // 输出：1
+// extent.call();     // 输出：2
+// extent.call();     // 输出：3
+
+// const extent = function(){
+//   let value = 0;
+//   return {
+//     call: function(){
+//         value++;
+//         console.log( value );
+//     }
+//   }
+// };
+// const extent1 = extent();
+// extent1.call();     // 输出：1
+// extent1.call();     // 输出：2
+// extent1.call();     // 输出：3
+
+
+const Extent = function(){
+  this.value = 0;
+};
+
+Extent.prototype.call = function(){
+  this.value++;
+  console.log( this.value );
+};
+
+const extent = new Extent();
+
+extent.call();
+extent.call();
+extent.call();
