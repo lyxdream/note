@@ -154,17 +154,107 @@
 // extent1.call();     // 输出：3
 
 
-const Extent = function(){
-  this.value = 0;
+
+
+
+// const Tv = {
+//   open(){
+//     console.log( '打开电视机' );
+//   },
+//   close(){
+//     console.log( '关上电视机' );
+//   }
+// }
+
+// class OpenTvCommand{
+//   constructor(receiver){
+//     this.receiver = receiver
+//   }
+//   execute(){
+//     this.receiver.open()   //执行命令，打开电视机
+//   }
+//   undo(){
+//     this.receiver.close()  //执行命令，关闭电视机
+//   }
+// }
+// const setCommand = (command)=>{
+//   document.getElementById( 'execute' ).onclick = function(){
+//     command.execute()  // 输出：打开电视机
+//   }
+//   document.getElementById( 'undo' ).onclick = function(){
+//     command.undo()  // 输出：关闭电视机
+//   }
+// }
+
+// setCommand( new OpenTvCommand( Tv) );
+
+
+// const Tv = {
+//   open(){
+//     console.log( '打开电视机' );
+//   },
+//   close(){
+//     console.log( '关上电视机' );
+//   }
+// }
+
+// const createCommand = function(receiver){
+//   const execute =()=>{
+//    return receiver.open()
+//   }
+//   const undo = ()=>{
+//     return receiver.close()
+//   }
+//   return {
+//     execute:execute,
+//     undo:undo
+//   }
+// }
+// const setCommand = (command)=>{
+//   document.getElementById( 'execute' ).onclick = function(){
+//     command.execute()  // 输出：打开电视机
+//   }
+//   document.getElementById( 'undo' ).onclick = function(){
+//     command.undo()  // 输出：关闭电视机
+//   }
+// }
+// setCommand(createCommand(Tv))
+
+const isType = function( type ){
+  return function( obj ){
+    return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+  }
 };
 
-Extent.prototype.call = function(){
-  this.value++;
-  console.log( this.value );
+
+var Type = {};
+
+for ( var i = 0, type; type = [ 'String', 'Array', 'Number' ][ i++ ]; ){
+    (function( type ){
+      Type[ 'is' + type ] = function( obj ){
+          return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+          }
+      })( type )
 };
 
-const extent = new Extent();
+Type.isArray( [] );     // 输出：true
+Type.isString( "str" );     // 输出：true
 
-extent.call();
-extent.call();
-extent.call();
+
+
+// var getSingle = function ( fn ) {
+//   var ret;
+//   return function () {
+//     console.log(this,'==this')
+//     return ret || ( ret = fn.apply( this, arguments ) );
+//   };
+// };
+
+// var getScript = getSingle(function(){
+//   return document.createElement( 'script' );
+// });
+
+// var script1 = getScript();
+// var script2 = getScript();
+// console.log(script1,script2,'=script1')
+// alert ( script1 === script2 );    // 输出：true
