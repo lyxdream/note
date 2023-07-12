@@ -220,41 +220,36 @@
 // }
 // setCommand(createCommand(Tv))
 
-const isType = function( type ){
-  return function( obj ){
-    return Object.prototype.toString.call( obj ) === '[object '+ type +']';
-  }
-};
-
-
-var Type = {};
-
-for ( var i = 0, type; type = [ 'String', 'Array', 'Number' ][ i++ ]; ){
-    (function( type ){
-      Type[ 'is' + type ] = function( obj ){
-          return Object.prototype.toString.call( obj ) === '[object '+ type +']';
-          }
-      })( type )
-};
-
-Type.isArray( [] );     // 输出：true
-Type.isString( "str" );     // 输出：true
-
-
-
-// var getSingle = function ( fn ) {
-//   var ret;
-//   return function () {
-//     console.log(this,'==this')
-//     return ret || ( ret = fn.apply( this, arguments ) );
-//   };
+// const isType = function( type ){
+//   return function( obj ){
+//     return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+//   }
 // };
 
-// var getScript = getSingle(function(){
-//   return document.createElement( 'script' );
-// });
 
-// var script1 = getScript();
-// var script2 = getScript();
-// console.log(script1,script2,'=script1')
-// alert ( script1 === script2 );    // 输出：true
+// let func = function(a){
+//   console.log( a+2 ); //7
+// };
+// Function.prototype.before = function( beforefn ){
+//   const __self = this;    // 保存原函数的引用
+//   return function(){    // 返回包含了原函数和新函数的"代理"函数
+//     beforefn.apply( this, arguments );     // 执行新函数，修正this
+//      __self.apply( this, arguments );    // 执行原函数
+//   }
+// };
+// Function.prototype.after = function(afterfn){
+//   const __self = this
+//   return function(){
+//     const ret = __self.apply(this,arguments);
+//     afterfn()
+//     return ret
+//   }
+// }
+
+// func = func.before(function(){
+//   console.log( 1 );
+// }).after(function(){
+//   console.log( 3 );
+// });
+// func(5)
+

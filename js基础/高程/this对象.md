@@ -36,7 +36,6 @@ this的指向大致可以分为以下4种。
 
 ```js
   window.name = 'globalName';
-
   const myObject = {
       name: 'sven',
       getName: function(){
@@ -107,20 +106,19 @@ window.identity = 'The Window';
 let object = { 
     identity: 'My Object', 
     getIdentityFunc() { 
-        return function() { 
+      return function() { 
         return this.identity; 
-    }; 
- } 
+     }; 
+   } 
 }; 
 console.log(object.getIdentityFunc()()); // 'The Window'
 ```
 
-匿名函数返回 this.identity。因为getIdentityFunc()返回函数，所以 object.getIdentityFunc()()会立即调用这个返回的函数，从而得到一个字符串。可是，此时返回的字符串是"The Winodw"，即全局变量 identity 的值。么匿名函数没有使用其包含作用域（getIdentityFunc()）的 this 对象呢？
+匿名函数返回 this.identity。因为getIdentityFunc()返回函数，所以 object.getIdentityFunc()()会立即调用这个返回的函数，从而得到一个字符串。可是，此时返回的字符串是"The Winodw"，即全局变量 identity 的值。匿名函数没有使用其包含作用域（getIdentityFunc()）的 this 对象呢？
 
 
 > 原因：每个函数在被调用时都会自动创建两个特殊变量：this 和arguments。内部函数永远不可能直接访问外部函数的这两个变量。
-但是，如果把 this 保存到闭包可以访问的另一个变量中，
-则是行得通的。
+但是，如果把 this 保存到闭包可以访问的另一个变量中，则是行得通的。
 
 ```js
 window.identity = 'The Window'; 
