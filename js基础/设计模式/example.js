@@ -146,7 +146,6 @@ Function.prototype.bind = function(context){
  */
 
 //   复杂版
-
 Function.prototype.bind = function(){
     const self = this,
     context = [].shift.call( arguments ), //需要绑定的this上下文
@@ -166,5 +165,42 @@ Function.prototype.bind = function(){
   }.bind( obj, 1, 2 );
   
   func(3,4)
+
+
+  //函数柯里化
+
+  const currying = function(fn){
+    const args = []
+    return function(){
+      if(arguments.length==0){
+        return fn.apply(this,args)
+      }else{
+        [].push.apply(args,arguments)
+        return arguments.callee
+      }
+    }
+  }
+  
+  const cost = (function(){
+    let money = 0;
+  
+    return function(){
+      for ( let i = 0, l = arguments.length; i < l; i++ ){
+          money += arguments[ i ];
+      }
+      return money;
+    }
+  
+  })();
+  
+  let costFn = currying( cost );    // 转化成currying函数
+  
+  costFn( 100 );    // 未真正求值
+  costFn( 200 );    // 未真正求值
+  costFn( 300 );    // 未真正求值
+  console.log ( costFn() );     // 求值并输出：600
+  // 或者
+  currying( cost )(100)(200)(300)();    // 600
+
 
   

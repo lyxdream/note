@@ -253,3 +253,59 @@
 // });
 // func(5)
 
+
+
+
+
+// const currying = function(fn){
+//   const args = []
+//   return function(){
+//     if(arguments.length==0){
+//       return fn.apply(this,args)
+//     }else{
+//       [].push.apply(args,arguments)
+//       return arguments.callee
+//     }
+//   }
+// }
+
+// const cost = (function(){
+//   let money = 0;
+
+//   return function(){
+//     for ( let i = 0, l = arguments.length; i < l; i++ ){
+//         money += arguments[ i ];
+//     }
+//     return money;
+//   }
+
+// })();
+
+// let costFn = currying( cost )(100)(200)();    // 转化成currying函数
+
+// costFn( 100 );    // 未真正求值
+// costFn( 200 );    // 未真正求值
+// costFn( 300 );    // 未真正求值
+// console.log ( costFn() );     // 求值并输出：600
+
+
+// var first = Array.shift( obj );    // 截取第一个元素
+// console.log( first );     // 输出：1
+// console.log( obj );    // 输出：{0: 2, 1: 3, 2: 4, length: 3}
+
+// Array.forEach( obj, function( i, n ){
+//   console.log( n );      // 分别输出：0, 1, 2
+// });
+
+
+Function.prototype.uncurrying = function(){
+   const __self = this;
+   return function(){
+      const obj = Array.prototype.shift.call(arguments);  //arguments的首位为传入的对象
+      return __self.apply(obj,arguments)
+   }
+}
+
+for(let i=0,fn,arr = ['push', 'shift', 'forEach'];fn=arr[i++];){
+    Array[fn] = Array.prototype[fn].uncurrying()
+}
