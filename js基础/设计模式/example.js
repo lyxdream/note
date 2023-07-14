@@ -168,39 +168,61 @@ Function.prototype.bind = function(){
 
 
   //函数柯里化
+  /**  es5的实现方式
+   * 
+   function isType(type, value) {
+  return Object.prototype.toString.call(value) === `[object ${type}]`
+}
 
-  const currying = function(fn){
-    const args = []
-    return function(){
-      if(arguments.length==0){
-        return fn.apply(this,args)
-      }else{
-        [].push.apply(args,arguments)
-        return arguments.callee
-      }
+// 第一种实现方式
+var currying = function(fn){
+  var args = []
+  var len = fn.length;
+  return function(){
+    // Array.prototype.push.apply( args, arguments );    // args借用Array.prototype.push方法
+    [].push.apply(args, arguments) //args借用[]的push方法
+    if(args.length<len){
+      return arguments.callee
+    }else{
+      return fn.apply(this,args)
     }
   }
-  
-  const cost = (function(){
-    let money = 0;
-  
-    return function(){
-      for ( let i = 0, l = arguments.length; i < l; i++ ){
-          money += arguments[ i ];
-      }
-      return money;
+}
+var isArray = currying(isType)('Array');
+console.log(isArray([]))
+
+//第二种实现方式
+var currying = function(fn){
+  const args = []
+  return function(){
+    if(arguments.length==0){
+      return fn.apply(this,args)
+    }else{
+      [].push.apply(args,arguments)
+      return arguments.callee
     }
-  
-  })();
-  
-  let costFn = currying( cost );    // 转化成currying函数
-  
-  costFn( 100 );    // 未真正求值
-  costFn( 200 );    // 未真正求值
-  costFn( 300 );    // 未真正求值
-  console.log ( costFn() );     // 求值并输出：600
-  // 或者
-  currying( cost )(100)(200)(300)();    // 600
+  }
+}
+var isArray = currying(isType)('Array');
+console.log(isArray([])())
 
-
-  
+//第三种实现方式
+function currying(fn, args) {
+  var args = args || [];//用来存储所有传入的参数
+  var _this = this;
+  var len = fn.length;
+  return function () {
+      var _args = Array.prototype.slice.call(arguments) //把arguments转换成数组  用来存放每次递归传过来的参数
+       _args = args.concat(_args)
+      // 如果参数个数小于fn.length，则递归调用，继续收集参数
+      if (_args.length < len) {
+          return currying.call(_this, fn, _args)
+      } else {
+          // 参数收集完毕，则执行fn
+          return fn.apply(_this, _args)
+      }
+  }
+}
+var isArray = currying(isType)('Array');
+console.log(isArray([]))
+ */

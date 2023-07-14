@@ -298,14 +298,112 @@
 // });
 
 
-Function.prototype.uncurrying = function(){
-   const __self = this;
-   return function(){
-      const obj = Array.prototype.shift.call(arguments);  //arguments的首位为传入的对象
-      return __self.apply(obj,arguments)
-   }
-}
+// Function.prototype.uncurrying = function(){
+//    const __self = this;
+//    return function(){
+//       const obj = Array.prototype.shift.call(arguments);  //arguments的首位为传入的对象
+//       return __self.apply(obj,arguments)
+//    }
+// }
 
-for(let i=0,fn,arr = ['push', 'shift', 'forEach'];fn=arr[i++];){
-    Array[fn] = Array.prototype[fn].uncurrying()
-}
+// for(let i=0,fn,arr = ['push', 'shift', 'forEach'];fn=arr[i++];){
+//     Array[fn] = Array.prototype[fn].uncurrying()
+// }
+
+
+
+
+
+// function isType(type){
+//    return function(value){
+//            return Object.prototype.toString.call(value) === `[object ${type}]`
+//    }
+// }
+
+
+// const currying = function(fn){
+//    const args = []
+//    return function(){
+//      if(arguments.length==0){
+//        return fn.apply(this,args)
+//      }else{
+//        [].push.apply(args,arguments)
+//        return arguments.callee
+//      }
+//    }
+//  }
+
+// const currying1 = function(fn){
+//    console.log(fn.length,'==fn')
+//    const args = []
+//    return function(){
+//       [].push.apply(args,arguments)
+//       if(args.length<fn.length){
+//          console.log(args,'===')
+//          return arguments.callee
+//       }else{
+//          console.log(args);
+//          return fn.apply(this,args)
+//       }
+//    }
+//  }
+
+
+// const  currying = (fn,arr=[]) =>{
+//    let len = fn.length;  //这里获取的是函数参数的个数
+//     console.log(len)
+//    return function(...args){  //每次执行传入的参数
+//        //高阶函数
+//       let  _arr = [...arr, ...args] //合并上次传入的参数到arr数组
+//       console.log(_arr,'==_arr')
+//        if (_arr.length < len) {
+//            return currying(fn, _arr) //递归不停的产生函数
+//        } else {
+//           console.log('fn')
+//            return fn(..._arr)
+//        }
+//    }
+// }
+
+// function isType(type, value) {
+//    return Object.prototype.toString.call(value) === `[object ${type}]`
+// }
+// function isType(type){
+//    return function(value){
+//        return Object.prototype.toString.call(value) === `[object ${type}]`
+//    }
+// }
+// let isArray = currying(isType)('Array')
+// console.log(isArray([]))
+// isArray([])
+// isArray([10])
+// let isString = currying(isType)('String');
+
+
+// const currying = function(fn){
+//    const args = []
+//    return function(){
+//      if(arguments.length==0){
+//        return fn.apply(this,args)
+//      }else{
+//        [].push.apply(args,arguments)
+//        return arguments.callee
+//      }
+//    }
+//  }
+ 
+//  const cost = (function(){
+//    let money = 0;
+ 
+//    return function(){
+//      for ( let i = 0, l = arguments.length; i < l; i++ ){
+//          money += arguments[ i ];
+//      }
+//      return money;
+//    }
+//  })();
+ 
+//  let costFn = currying( cost );    // 转化成currying函数
+
+//  const res = currying( cost )(100)(200)(300)();    // 600
+//  console.log(res,'==res')
