@@ -40,8 +40,6 @@
 
 // console.log ( cache,mult( 1,2,3 ) );     // 输出：6
 
-
-
 // function  fn1() {
 //   let num = 1;
 //   return function () {
@@ -50,7 +48,7 @@
 //       console.log(num)
 //   }
 // }
-// let fn2 = fn1(); 
+// let fn2 = fn1();
 // fn2();//2
 // fn2();//3
 
@@ -67,15 +65,11 @@
 
 // var fn2 =fn1();
 // num = 2;
-// fn2()   
-
-
+// fn2()
 
 // let mult = function(){
-   
+
 // };
-
-
 
 // let mult = (function(){
 //   let cache = {};
@@ -93,8 +87,6 @@
 // })()
 // console.log ( mult( 1,2,3 ) );     // 输出：6
 // console.log ( mult( 1,2,3 ) );     // 输出：6
-
-
 
 // let mult = (function(){
 //   let cache = {};
@@ -115,7 +107,6 @@
 // })()
 // console.log ( mult( 1,2,3 ) );     // 输出：6
 
-
 // let report = (function(){
 //   let imgs = [];
 //   return function( src ){
@@ -126,7 +117,6 @@
 //   }
 // })();
 // report('https://bkimg.cdn.bcebos.com/pic/8cb1cb134954092302ddef229b58d109b3de4932?x-bce-process=image/resize,m_lfit,w_536,limit_1/format,f_auto')
-
 
 // const extent = {
 //   value:0,
@@ -152,10 +142,6 @@
 // extent1.call();     // 输出：1
 // extent1.call();     // 输出：2
 // extent1.call();     // 输出：3
-
-
-
-
 
 // const Tv = {
 //   open(){
@@ -187,7 +173,6 @@
 // }
 
 // setCommand( new OpenTvCommand( Tv) );
-
 
 // const Tv = {
 //   open(){
@@ -226,7 +211,6 @@
 //   }
 // };
 
-
 // let func = function(a){
 //   console.log( a+2 ); //7
 // };
@@ -252,10 +236,6 @@
 //   console.log( 3 );
 // });
 // func(5)
-
-
-
-
 
 // const currying = function(fn){
 //   const args = []
@@ -288,7 +268,6 @@
 // costFn( 300 );    // 未真正求值
 // console.log ( costFn() );     // 求值并输出：600
 
-
 // var first = Array.shift( obj );    // 截取第一个元素
 // console.log( first );     // 输出：1
 // console.log( obj );    // 输出：{0: 2, 1: 3, 2: 4, length: 3}
@@ -296,7 +275,6 @@
 // Array.forEach( obj, function( i, n ){
 //   console.log( n );      // 分别输出：0, 1, 2
 // });
-
 
 // Function.prototype.uncurrying = function(){
 //    const __self = this;
@@ -310,100 +288,156 @@
 //     Array[fn] = Array.prototype[fn].uncurrying()
 // }
 
-
-
-
-
-// function isType(type){
-//    return function(value){
-//            return Object.prototype.toString.call(value) === `[object ${type}]`
-//    }
+// const currying = function(fn,_args  = []){
+//   return (...args)=>{
+//     _args = [..._args,...args]
+//     if(args.length===0){
+//       return fn(..._args)
+//     }else{
+//       return currying(fn,_args)
+//     }
+//   }
 // }
 
-
-// const currying = function(fn){
-//    const args = []
-//    return function(){
-//      if(arguments.length==0){
-//        return fn.apply(this,args)
-//      }else{
-//        [].push.apply(args,arguments)
-//        return arguments.callee
-//      }
-//    }
-//  }
-
-// const currying1 = function(fn){
-//    console.log(fn.length,'==fn')
-//    const args = []
-//    return function(){
-//       [].push.apply(args,arguments)
-//       if(args.length<fn.length){
-//          console.log(args,'===')
-//          return arguments.callee
-//       }else{
-//          console.log(args);
-//          return fn.apply(this,args)
-//       }
-//    }
-//  }
-
-
-// const  currying = (fn,arr=[]) =>{
-//    let len = fn.length;  //这里获取的是函数参数的个数
-//     console.log(len)
-//    return function(...args){  //每次执行传入的参数
-//        //高阶函数
-//       let  _arr = [...arr, ...args] //合并上次传入的参数到arr数组
-//       console.log(_arr,'==_arr')
-//        if (_arr.length < len) {
-//            return currying(fn, _arr) //递归不停的产生函数
-//        } else {
-//           console.log('fn')
-//            return fn(..._arr)
-//        }
-//    }
+// const currying = function(fn,_args  = []){
+//   const len = fn.length
+//   return (...args)=>{
+//     _args = [..._args,...args]
+//     if(_args.length<len){
+//       return currying(fn,_args)
+//     }else{
+//       return fn(..._args)
+//     }
+//   }
 // }
+
 
 // function isType(type, value) {
-//    return Object.prototype.toString.call(value) === `[object ${type}]`
+//   return Object.prototype.toString.call(value) === `[object ${type}]`
 // }
-// function isType(type){
-//    return function(value){
-//        return Object.prototype.toString.call(value) === `[object ${type}]`
-//    }
+// var isArray = currying(isType)('Array');
+// // (1)(3)两种使用方式
+// console.log(isArray([])) //true
+
+// var cost = (function(a,b,c){
+//   var money = 0;
+//   return function(a,b,c){
+//     for ( var i = 0, l = arguments.length; i < l; i++ ){
+//         money += arguments[ i ];
+//     }
+//     return money;
+//   }
+// })();
+
+// const costFn = currying( cost )(100)(200)(300);    // 600
+// console.log(costFn,'===costFn')
+
+
+// function multi() {
+//   var args = Array.prototype.slice.call(arguments);
+//   var fn = function() {
+//     var newArgs = args.concat(Array.prototype.slice.call(arguments));
+//         return multi.apply(this, newArgs);
+//     }
+//     fn.toString = function() {
+//         return args.reduce(function(a, b) {
+//             return a * b;
+//         })
+//     }
+//   return fn;
 // }
-// let isArray = currying(isType)('Array')
-// console.log(isArray([]))
-// isArray([])
-// isArray([10])
-// let isString = currying(isType)('String');
+
+// console.log(multi(2)(3)(4)(5));
 
 
-// const currying = function(fn){
-//    const args = []
-//    return function(){
-//      if(arguments.length==0){
-//        return fn.apply(this,args)
-//      }else{
-//        [].push.apply(args,arguments)
-//        return arguments.callee
-//      }
-//    }
-//  }
- 
-//  const cost = (function(){
-//    let money = 0;
- 
-//    return function(){
-//      for ( let i = 0, l = arguments.length; i < l; i++ ){
-//          money += arguments[ i ];
-//      }
-//      return money;
-//    }
-//  })();
- 
-//  let costFn = currying( cost );    // 转化成currying函数
+// function test(c){
+//   console.log(c,'==c')
+//   return (a)=>{
+//     console.log(a,'==a')
+//     return (b)=>{
+//       console.log(b,'==b')
+//     }
+//   }
+// }
+// console.log(test(1)(2)(3))
 
-//  const res = currying( cost )(100)(200)(300)();    // 600
-//  console.log(res,'==res')
+// var throttle = function ( fn, interval ) {
+
+//   var __self = fn,    // 保存需要被延迟执行的函数引用
+//     timer,      // 定时器
+//     firstTime = true;    // 是否是第一次调用
+
+//   return function () {
+//     var args = arguments,
+//         __me = this;
+
+//     if ( firstTime ) {    // 如果是第一次调用，不需延迟执行
+//         __self.apply(__me, args);
+//         return firstTime = false;
+//     }
+
+//     if ( timer ) {    // 如果定时器还在，说明前一次延迟执行还没有完成
+//         return false;
+//     }
+
+//     timer = setTimeout(function () {  // 延迟一段时间执行
+//         clearTimeout(timer);
+//         timer = null;
+//         __self.apply(__me, args);
+
+//     }, interval || 500 );
+
+// };
+
+// };
+
+
+
+const throttle = (fn, interval)=> {
+  let timer = null,
+  firstTime = false
+  return (...args)=>{
+    if(firstTime){
+      fn(...args)
+      return firstTime = false
+    }
+    if(timer){
+      return false
+    }
+    timer = setTimeout(() => {
+        clearTimeout(timer);
+        timer = null;
+        fn(...args)
+    }, interval || 500);
+  }
+}
+window.onresize = throttle(function(){
+  console.log( 1 );
+  }, 1000 );
+  
+
+
+
+var addEvent = function( elem, type, handler ){
+    if ( window.addEventListener ){
+        addEvent = function( elem, type, handler ){
+            elem.addEventListener( type, handler, false );
+        }
+    }else if ( window.attachEvent ){
+        addEvent = function( elem, type, handler ){
+            elem.attachEvent( 'on' + type, handler );
+        }
+    }
+    addEvent( elem, type, handler );
+};
+var div = document.getElementById( 'div1' );
+addEvent( div, 'click', function(){
+    alert (1);
+});
+addEvent( div, 'click', function(){
+    alert (2);
+});
+
+https://juejin.cn/post/6899259562105241607
+
+https://zhuanlan.zhihu.com/p/402991176
