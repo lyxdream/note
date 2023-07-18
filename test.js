@@ -471,4 +471,47 @@
 
 // renderFriendList();
 
+// 变量类型判断的方式
+// 变量声明的方式
 
+
+class Scheduler {
+  queue = [];
+  maxCount = 2; //最大并行数量
+  tempRunIndex = 0; //当前执行的函数的个数
+  add(promiseCreator) {
+      this.queue.push(promiseCreator);
+      this.run()
+  }
+  run() {
+      if (!this.queue || !this.queue.length || this.tempRunIndex >= this.maxCount) {
+          return
+      } else {
+           //如果当前执行的函数个数小于最大并行数量
+           this.tempRunIndex++;
+           let task = this.queue.shift();
+           task().then(result => {
+           }).finally(() => {
+               this.tempRunIndex--
+               this.run();
+           });
+      }
+  }
+}
+function timeout(time) {
+  return new Promise(resolve => {
+      setTimeout(resolve, time)
+  })
+}
+
+var scheduler = new Scheduler()
+
+function addTask(time, order) {
+  scheduler.add(() => timeout(time).then(() => console.log(order,'===')))
+}
+
+
+addTask(1000, '1')
+addTask(500, '2')
+addTask(300, '3')
+addTask(400, '4')
