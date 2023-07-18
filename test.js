@@ -393,51 +393,82 @@
 
 
 
-const throttle = (fn, interval)=> {
-  let timer = null,
-  firstTime = false
-  return (...args)=>{
-    if(firstTime){
-      fn(...args)
-      return firstTime = false
-    }
-    if(timer){
-      return false
-    }
-    timer = setTimeout(() => {
-        clearTimeout(timer);
-        timer = null;
-        fn(...args)
-    }, interval || 500);
-  }
-}
-window.onresize = throttle(function(){
-  console.log( 1 );
-  }, 1000 );
+// const throttle = (fn, interval)=> {
+//   let timer = null,
+//   firstTime = false
+//   return (...args)=>{
+//     if(firstTime){
+//       fn(...args)
+//       return firstTime = false
+//     }
+//     if(timer){
+//       return false
+//     }
+//     timer = setTimeout(() => {
+//         clearTimeout(timer);
+//         timer = null;
+//         fn(...args)
+//     }, interval || 500);
+//   }
+// }
+// window.onresize = throttle(function(){
+//   console.log( 1 );
+//   }, 1000 );
   
 
 
 
-var addEvent = function( elem, type, handler ){
-    if ( window.addEventListener ){
-        addEvent = function( elem, type, handler ){
-            elem.addEventListener( type, handler, false );
-        }
-    }else if ( window.attachEvent ){
-        addEvent = function( elem, type, handler ){
-            elem.attachEvent( 'on' + type, handler );
-        }
-    }
-    addEvent( elem, type, handler );
-};
-var div = document.getElementById( 'div1' );
-addEvent( div, 'click', function(){
-    alert (1);
-});
-addEvent( div, 'click', function(){
-    alert (2);
-});
+// var addEvent = function( elem, type, handler ){
+//     if ( window.addEventListener ){
+//         addEvent = function( elem, type, handler ){
+//             elem.addEventListener( type, handler, false );
+//         }
+//     }else if ( window.attachEvent ){
+//         addEvent = function( elem, type, handler ){
+//             elem.attachEvent( 'on' + type, handler );
+//         }
+//     }
+//     addEvent( elem, type, handler );
+// };
+// var div = document.getElementById( 'div1' );
+// addEvent( div, 'click', function(){
+//     alert (1);
+// });
+// addEvent( div, 'click', function(){
+//     alert (2);
+// });
 
-https://juejin.cn/post/6899259562105241607
 
-https://zhuanlan.zhihu.com/p/402991176
+// const timeChunk = function(ary,fn,count){
+//  let timer = null;
+//   const start = ()=>{
+//     for(let i=0;i<Math.min(count || 1 ,ary.length);i++){
+//         const obj = ary.shift()
+//         fn(obj)
+//     }
+//   }
+//   return ()=>{
+//     timer = setInterval(() => {
+//       if(ary.length===0){
+//         return clearInterval(timer)
+//       }
+//       start()
+//     }, 200);
+//   }
+// }
+
+// const ary = []
+
+// for(let i=1;i<=1000;i++){
+//   ary.push(i)
+// }
+
+// const renderFriendList = timeChunk(ary,function( n ){
+//   var div = document.createElement( 'div' );
+//   div.innerHTML = n;
+//   document.body.appendChild( div );
+// },8)
+
+// renderFriendList();
+
+
