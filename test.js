@@ -471,6 +471,12 @@
 
 // renderFriendList();
 
-// 变量类型判断的方式
 // 变量声明的方式
 
+
+
+const arr = '1111'
+
+console.log(arr.toString())
+
+Object.prototype.toString.call({a:1})
