@@ -471,12 +471,7 @@
 
 // renderFriendList();
 
-// 变量声明的方式
 
 
 
-const arr = '1111'
-
-console.log(arr.toString())
-
-Object.prototype.toString.call({a:1})
+// 1、数据类型
