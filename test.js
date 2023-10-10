@@ -472,6 +472,147 @@
 // renderFriendList();
 
 
+// var MyApp = {
+// };
+// MyApp.namespace = function( name ){
+//     var parts = name.split( '.' );
+//     var current = MyApp;
+//     for ( let i in parts ){
+//       if ( ! current[ parts[ i ] ] ){
+//           current[ parts[ i ] ] = {};
+//       }
+//       current = current[ parts[ i ] ];
+//     }
+// };
 
+// MyApp.namespace( 'event' );
+// MyApp.namespace( 'dom.style' );
+// console.dir( MyApp );
+
+// 上述代码等价于：
+
+// var MyApp = {
+//      event: {},
+//      dom: {
+//         style: {}
+//      }
+// };
+
+
+// var Singleton = function( name ){
+//   this.name = name;
+//   this.instance = null;
+// };
+
+// Singleton.prototype.getName = function(){
+//   console.log  ( this.name );
+// };
+
+// Singleton.getInstance = function( name ){
+//   if ( ! this.instance ){
+//     this.instance = new Singleton( name );
+//   }
+//   return this.instance;
+// };
+// var a = Singleton.getInstance( 'sven1' );
+// var b = Singleton.getInstance( 'sven2' );
+
+// console.log ( a,b,a === b );    // true
+
+
+// class Singleton{
+//   constructor(name){
+//     this.name = name;
+//     this.instance = null;
+//   }
+//   getName(){
+//     console.log  ( this.name );
+//   }
+//   static getInstance(name){
+//     if ( ! this.instance ){
+//       this.instance = new Singleton( name );
+//     }
+//     return this.instance;
+//   }
+// }
+// let a = Singleton.getInstance( 'sven1' );
+// let b = Singleton.getInstance( 'sven2' );
+
+// console.log ( a,b,a === b );    // true
+
+
+// var Singleton = function( name ){
+//   this.name = name;
+// };
+// Singleton.prototype.sayName = function(){
+//   console.log  ( this.name );
+// } 
+// Singleton.getInstance = (function(){
+//   var instance = null
+//   return function(name){
+//     if(!instance){
+//       instance = new Singleton(name)
+//     }
+//     return instance
+//   }
+// })()
+// let a = Singleton.getInstance( 'sven1' );
+// let b = Singleton.getInstance( 'sven2' );
+
+// console.log ( a,b,a === b );    // true
+
+
+// var MyApp = {};
+
+// MyApp.namespace = function( name ){
+//   const parts = name.split('.')
+//   let current = MyApp
+//   for(let key in parts){
+//     if(!current[parts[key]]){
+//       current[parts[key]] = {}
+//     }
+//     current = current[parts[key]]
+//   }
+// };
+
+// MyApp.namespace( 'event' );
+// MyApp.namespace( 'dom.style' );
+
+// console.dir( MyApp );
+
+// // 上述代码等价于：
+
+// var MyApp = {
+//      event: {},
+//      dom: {
+//         style: {}
+//      }
+// };
+
+
+const getSingle = function(fn){
+  let result;
+  return function(){
+    return result || (result = fn.apply(this,arguments))
+  }
+}
+
+
+const bindEvent = getSingle(function(){
+  // document.getElementById( 'div1' ).onclick = function(){
+  //   alert ( 'click' );
+  // }
+  console.log('click')
+  return true;
+});
+
+const render = function(){
+  console.log( '开始渲染列表' );
+  bindEvent();
+};
+
+render();
+render();
+render();
 
 
