@@ -590,29 +590,117 @@
 // };
 
 
-const getSingle = function(fn){
-  let result;
-  return function(){
-    return result || (result = fn.apply(this,arguments))
+// const getSingle = function(fn){
+//   let result;
+//   return function(){
+//     return result || (result = fn.apply(this,arguments))
+//   }
+// }
+
+
+// const bindEvent = getSingle(function(){
+//   // document.getElementById( 'div1' ).onclick = function(){
+//   //   alert ( 'click' );
+//   // }
+//   console.log('click')
+//   return true;
+// });
+
+// const render = function(){
+//   console.log( '开始渲染列表' );
+//   bindEvent();
+// };
+
+// render();
+// render();
+// render();
+
+// const getSingle = function(fn){
+//   let result;
+//   return function(){
+//     console.log(result,'==result')
+//     return result || (result = fn.apply(this,arguments))
+//   }
+// }
+
+// const createDiv = function(){
+//  // document.getElementById( 'div1' ).onclick = function(){
+//   //   alert ( 'click' );
+//   // }
+//   console.log('click')
+//   return true;
+// };
+
+// const bindEvent = getSingle(createDiv);
+
+// const render = function(){
+//   console.log( '开始渲染列表' );
+//   bindEvent();
+// };
+
+// render();
+// render();
+// render();
+
+
+
+
+
+// const performanceS = function(){};
+
+// performanceS.prototype.calculate = function( salary ){
+//     return salary * 4;
+// };
+
+// const performanceA = function(){};
+
+// performanceA.prototype.calculate = function( salary ){
+//     return salary * 3;
+// };
+
+// const performanceB = function(){};
+
+// performanceB.prototype.calculate = function( salary ){
+//     return salary * 2;
+// };
+
+
+// class Bonus{
+//   constructor(){
+//     this.salary = null;      // 原始工资
+//     this.strategy = null;    // 绩效等级对应的策略对象
+//   }
+//   setSalary(salary){
+//     this.salary = salary
+//   }
+//   setStrategy(strategy){
+//     this.strategy = strategy
+//   }
+//   getBonus(){
+//     return this.strategy.calculate( this.salary)
+//   }
+// }
+// const bonus = new Bonus()
+// bonus.setSalary(10000)
+// bonus.setStrategy(new performanceS())
+// console.log(bonus.getBonus())
+
+
+
+const strategies = {
+  "S":function(salary){
+    return salary*4
+  },
+  "A":function(salary){
+    return salary*3
+  },
+  "B":function(salary){
+    return salary*2
   }
 }
 
+const calculateBonus = function(level,salary){
+  return strategies[level](salary)
+}
 
-const bindEvent = getSingle(function(){
-  // document.getElementById( 'div1' ).onclick = function(){
-  //   alert ( 'click' );
-  // }
-  console.log('click')
-  return true;
-});
-
-const render = function(){
-  console.log( '开始渲染列表' );
-  bindEvent();
-};
-
-render();
-render();
-render();
-
-
+console.log(calculateBonus('S',10000))
