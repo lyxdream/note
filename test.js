@@ -687,20 +687,146 @@
 
 
 
-const strategies = {
-  "S":function(salary){
-    return salary*4
-  },
-  "A":function(salary){
-    return salary*3
-  },
-  "B":function(salary){
-    return salary*2
+// const strategies = {
+//   "S":function(salary){
+//     return salary*4
+//   },
+//   "A":function(salary){
+//     return salary*3
+//   },
+//   "B":function(salary){
+//     return salary*2
+//   }
+// }
+
+// const calculateBonus = function(level,salary){
+//   return strategies[level](salary)
+// }
+
+// console.log(calculateBonus('S',10000))
+
+
+
+  const Animate = function( dom ){
+    this.dom = dom;                   // 进行运动的dom节点
+    this.startTime = 0;               // 动画开始时间
+    this.startPos = 0;                // 动画开始时，dom节点的位置，即dom的初始位置
+    this.endPos = 0;                  // 动画结束时，dom节点的位置，即dom的目标位置
+    this.propertyName = null;         // dom节点需要被改变的css属性名
+    this.easing = null;               // 缓动算法
+    this.duration = null;             // 动画持续时间
+};
+
+
+Animate.prototype.start = function( propertyName, endPos, duration, easing ){
+  this.startTime = +new Date;        // 动画启动时间
+  this.startPos = this.dom.getBoundingClientRect()[ propertyName ];  // dom节点初始位置
+  this.propertyName = propertyName;  // dom节点需要被改变的CSS属性名
+  this.endPos = endPos;  // dom节点目标位置
+  this.duration = duration;   // 动画持续时间
+  this.easing = tween[ easing ];  // 缓动算法
+
+  var self = this;
+  var timeId = setInterval(function(){      // 启动定时器，开始执行动画
+    if ( self.step() === false ){           // 如果动画已结束，则清除定时器
+        clearInterval( timeId );
+    }
+}, 19 );
+};
+
+Animate.prototype.step = function(){
+  var t = +new Date;        // 取得当前时间
+  if ( t >= this.startTime + this.duration ){       // (1)
+    this.update( this.endPos );   // 更新小球的CSS属性值
+    return false;
   }
-}
+  var pos = this.easing( t - this.startTime, this.startPos,
+    this.endPos - this.startPos, this.duration );
+  // pos为小球当前位置
+  this.update( pos );    // 更新小球的CSS属性值
+};
 
-const calculateBonus = function(level,salary){
-  return strategies[level](salary)
-}
+Animate.prototype.update = function( pos ){
+  this.dom.style[ this.propertyName ] = pos + 'px';
+};
 
-console.log(calculateBonus('S',10000))
+var div = document.getElementById( 'div' );
+var animate = new Animate( div );
+
+animate.start( 'left', 500, 1000, 'linear' );
+animate.start( 'top', 200, 200, 'linear' );
+
+
+
+// t:是动画已消耗的时间 t - this.startTime
+// b:球原始位置  this.startPos
+// c:小球目标位置 this.endPos - this.startPos
+// d:动画持续的总时间  this.duration
+const tween = {
+  linear: function( t, b, c, d ){
+      return c*t/d + b;
+  },
+  easeIn: function( t, b, c, d ){
+      return c * ( t /= d ) * t + b;
+  },
+  strongEaseIn: function(t, b, c, d){
+      return c * ( t /= d ) * t * t * t * t + b;
+  },
+  strongEaseOut: function(t, b, c, d){
+      return c * ( ( t = t / d -1) * t * t * t * t + 1 ) + b;
+  },
+  sineaseIn: function( t, b, c, d ){
+      return c * ( t /= d) * t * t + b;
+  },
+  sineaseOut: function(t, b, c, d){
+      return c * ( ( t = t / d -1) * t * t + 1 ) + b;
+  }
+  };
+
+
+// t:是动画已消耗的时间 t - this.startTime
+// b:球原始位置  this.startPos
+// c:小球目标位置 this.endPos - this.startPos
+// d:动画持续的总时间  this.duration
+
+
+  class Animate {
+    constructor(dom){
+      this.dom = dom;   //进行运动的dom节点
+      this.startTime = 0;  // 动画开始时间
+      this.startPos = 0;   // 动画开始时，dom节点的位置，即dom的初始位置
+      this.         = 0;  // 动画结束时，dom节点的位置，即dom的目标位置
+      this.duration = null;      // 动画持续时间
+      this.propertyName = null; //dom节点需要被改变的css属性名
+      this.easing = null;       // 缓动算法
+    }
+    start(propertyName,endPos,easing,duration){
+      this.startTime = new Date() //动画启动时间
+      this.startPos = this.dom.getBoundingClientRect()[ propertyName ];
+      this.propertyName =  this.propertyName
+      this.endPos = endPos;
+      this.duration = duration;
+    }
+    step(){
+
+    }
+    update(){
+
+    }
+  }
+
+
+
+
+  开始位置  
+  结束位置
+  开始时间
+  持续时长
+  css属性名
+  缓动算法
+
+
+  开始位置  
+  结束位置
+  消耗的时间
+  持续时长     
